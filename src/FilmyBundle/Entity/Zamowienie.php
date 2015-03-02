@@ -28,7 +28,11 @@ class Zamowienie
      */
     private $czas;
 
-
+    /**
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     **/
+    private $user;
     /**
      * Get id
      *
@@ -39,6 +43,10 @@ class Zamowienie
         return $this->id;
     }
 
+    public function __construct()
+    {
+        $this->czas = new \DateTime();
+    }
     /**
      * Set czas
      *
@@ -60,5 +68,28 @@ class Zamowienie
     public function getCzas()
     {
         return $this->czas;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \FilmyBundle\Entity\User $user
+     * @return Zamowienie
+     */
+    public function setUser(\FilmyBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \FilmyBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

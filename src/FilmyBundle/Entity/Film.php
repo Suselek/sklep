@@ -31,17 +31,40 @@ class Film
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255)
+     * @ORM\Column(name="opis", type="string", length=255)
      */
-    private $description;
+    private $opis;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="price", type="string", length=255)
+     * @ORM\Column(name="cena", type="string", length=255)
      */
-    private $price;
+    private $cena;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Ocena")
+     * @ORM\JoinTable(name="filmy_oceny",
+     *      joinColumns={@ORM\JoinColumn(name="film_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="ocena_id", referencedColumnName="id", unique=true)}
+     *      )
+     **/
+    private $oceny;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Zamowienie")
+     * @ORM\JoinTable(name="filmy_zamowienia",
+     *      joinColumns={@ORM\JoinColumn(name="film_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="zamowienie_id", referencedColumnName="id", unique=true)}
+     *      )
+     **/
+    private $zamowienia;
+
+    public function __construct()
+    {
+        $this->oceny = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->zamowienia = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -76,49 +99,117 @@ class Film
         return $this->tytul;
     }
 
+ 
+
     /**
-     * Set description
+     * Set opis
      *
-     * @param string $description
+     * @param string $opis
      * @return Film
      */
-    public function setDescription($description)
+    public function setOpis($opis)
     {
-        $this->description = $description;
+        $this->opis = $opis;
 
         return $this;
     }
 
     /**
-     * Get description
+     * Get opis
      *
      * @return string 
      */
-    public function getDescription()
+    public function getOpis()
     {
-        return $this->description;
+        return $this->opis;
     }
 
     /**
-     * Set price
+     * Set cena
      *
-     * @param string $price
+     * @param string $cena
      * @return Film
      */
-    public function setPrice($price)
+    public function setCena($cena)
     {
-        $this->price = $price;
+        $this->cena = $cena;
 
         return $this;
     }
 
     /**
-     * Get price
+     * Get cena
      *
      * @return string 
      */
-    public function getPrice()
+    public function getCena()
     {
-        return $this->price;
+        return $this->cena;
+    }
+
+    /**
+     * Add oceny
+     *
+     * @param \FilmyBundle\Entity\Ocena $oceny
+     * @return Film
+     */
+    public function addOceny(\FilmyBundle\Entity\Ocena $oceny)
+    {
+        $this->oceny[] = $oceny;
+
+        return $this;
+    }
+
+    /**
+     * Remove oceny
+     *
+     * @param \FilmyBundle\Entity\Ocena $oceny
+     */
+    public function removeOceny(\FilmyBundle\Entity\Ocena $oceny)
+    {
+        $this->oceny->removeElement($oceny);
+    }
+
+    /**
+     * Get oceny
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOceny()
+    {
+        return $this->oceny;
+    }
+
+    /**
+     * Add zamowienia
+     *
+     * @param \FilmyBundle\Entity\Zamowienie $zamowienia
+     * @return Film
+     */
+    public function addZamowienium(\FilmyBundle\Entity\Zamowienie $zamowienia)
+    {
+        $this->zamowienia[] = $zamowienia;
+
+        return $this;
+    }
+
+    /**
+     * Remove zamowienia
+     *
+     * @param \FilmyBundle\Entity\Zamowienie $zamowienia
+     */
+    public function removeZamowienium(\FilmyBundle\Entity\Zamowienie $zamowienia)
+    {
+        $this->zamowienia->removeElement($zamowienia);
+    }
+
+    /**
+     * Get zamowienia
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getZamowienia()
+    {
+        return $this->zamowienia;
     }
 }
