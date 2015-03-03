@@ -1,0 +1,38 @@
+_index:
+    path:     /
+    defaults: { _controller: "FilmyBundle:Film:index" }
+
+_show:
+    path:     /{id}/show
+    defaults: { _controller: "FilmyBundle:Film:show" }
+
+_new:
+    path:     /new
+    defaults: { _controller: "FilmyBundle:Film:new" }
+
+_create:
+    path:     /create
+    defaults: { _controller: "FilmyBundle:Film:create" }
+    requirements: { _method: post }
+
+_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "FilmyBundle:Film:edit" }
+
+_update:
+    path:     /{id}/update
+    defaults: { _controller: "FilmyBundle:Film:update" }
+    requirements: { _method: post|put }
+
+_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "FilmyBundle:Film:delete" }
+    requirements: { _method: post|delete }
+
+_zamowienia:
+    path:     /zamowienia
+    defaults: { _controller: "FilmyBundle:Film:zamowienia" }
+
+_ocena:
+    path:     /ocena
+    defaults: { _controller: "FilmyBundle:Film:ocena" }

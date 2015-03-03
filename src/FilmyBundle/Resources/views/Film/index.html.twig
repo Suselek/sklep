@@ -1,0 +1,83 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Lista filmów ({{ entities|length }})</h1>
+
+    {% for entity in entities %}
+    <div class="col-md-4 column">
+            <h2>
+                {{ entity.tytul }} - {{ entity.cena }}
+            </h2>
+            <p>
+                {{ entity.opis }}
+            </p>
+            <p> <a href="javascript:recenzje({{entity.id}})">Pokaz Recenzje({{ entity.oceny|length }}) </a>
+                | <a href="javascript:recenzje_dodaj({{entity.id}})"> Dodaj nową </a></p>
+
+
+            <p>
+                <a class="btn" href="#">Kup</a> | <a href="{{ path('_edit', { 'id': entity.id }) }}">Edytuj</a>
+            </p>
+        </div>
+        
+        <div id="{{entity.id}}" style="display:none">
+            {% for ocena in entity.oceny %}
+                <p>{{ocena.komentarz}} - {{ocena.ocena}}</p>
+                <hr/>
+            {% endfor %}
+
+        </div>
+        <div id="f_{{entity.id}}" style="display:none">
+            <form action="{{path('_ocena')}}" method="post">
+            <label>Komentarz</label>
+            <textarea name="komentarz"></textarea><hr/>
+            <label>Ocena</label>
+            <input name="ocena" type="number" stepBy="1" value=""/>
+            <input type="hidden" value="{{ entity.id }}" name="film_id"/>
+            <input type="submit" style="display:none"/>
+            </form>
+        </div>
+        {% endfor %}
+
+
+
+<script type="text/javascript">
+    
+function recenzje(id)
+{
+    bootbox.dialog({
+      title: "Recenzje",
+      message:  $('#'+id).html()
+    });
+}
+function recenzje_dodaj(id)
+{
+    bootbox.dialog({
+      title: "Recenzje",
+      message:  $('<div id="p_'+id+'">').append($('#f_'+id).html()),
+     buttons: {
+        success: {
+          label: "Dodaj",
+          className: "btn-success",
+          callback: function() {
+            $('form').ajaxForm(function() { 
+                alert("Dodałeś komentarz"); 
+            }); 
+            $('#p_'+id+' form').submit();
+
+          }
+        },
+        danger: {
+          label: 'Anuluj',
+          className: "btn-danger",
+          callback: function() {
+            //Example.show("uh oh, look out!");
+          }
+        }
+  }});
+}
+$(document).ready(function() { 
+        
+    });
+</script>
+    {% endblock %}
