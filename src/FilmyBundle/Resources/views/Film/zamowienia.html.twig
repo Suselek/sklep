@@ -1,0 +1,23 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Lista zamowień</h1>
+    <table class="table">
+    <tr>
+      <td>Id</td>
+      <td>Uzytkownik</td>
+      <td>Film</td>
+      <td>Czas</td>
+    </tr>
+    {% for entity in entities %}
+       {% for zamowienie in entity.zamowienia %}
+      <tr>
+        <td>{{ zamowienie.id }}</td>
+        <td>{{ zamowienie.user.username|default('-') }}</td>
+        <td>{{ entity.tytul }}</td>
+        <td>{{ zamowienie.czas|date('Y-m-d') }}</td>
+      </tr>
+        {% endfor %}
+    {% endfor %}
+  </table>
+    {% endblock %}

@@ -91,4 +91,9 @@ class Ocena
     {
         return $this->komentarz;
     }
+
+    public function __toString()
+    {
+        return 'Id komentarza '.$this->id;
+    }
 }

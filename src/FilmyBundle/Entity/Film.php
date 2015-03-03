@@ -31,7 +31,7 @@ class Film
     /**
      * @var string
      *
-     * @ORM\Column(name="opis", type="string", length=255)
+     * @ORM\Column(name="opis", type="text")
      */
     private $opis;
 

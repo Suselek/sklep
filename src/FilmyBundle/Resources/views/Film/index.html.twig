@@ -4,25 +4,29 @@
     <h1>Lista filmów ({{ entities|length }})</h1>
 
     {% for entity in entities %}
-    <div class="col-md-4 column">
+    <div class="col-md-8 column">
             <h2>
-                {{ entity.tytul }} - {{ entity.cena }}
+                {{ entity.tytul }} - ${{ entity.cena }}
+
             </h2>
+            <h4>{{ entity.zamowienia|length }} zakupów</h4>
             <p>
                 {{ entity.opis }}
             </p>
             <p> <a href="javascript:recenzje({{entity.id}})">Pokaz Recenzje({{ entity.oceny|length }}) </a>
                 | <a href="javascript:recenzje_dodaj({{entity.id}})"> Dodaj nową </a></p>
 
-
+            {% if app.user %}
             <p>
-                <a class="btn" href="#">Kup</a> | <a href="{{ path('_edit', { 'id': entity.id }) }}">Edytuj</a>
+                <a class="btn btn-success" href="javascript:kup({{entity.id}})">Kup</a> 
+                | <a class="btn btn-info" href="{{ path('_edit', { 'id': entity.id }) }}">Edytuj</a>
             </p>
+        {% endif %}
         </div>
         
         <div id="{{entity.id}}" style="display:none">
             {% for ocena in entity.oceny %}
-                <p>{{ocena.komentarz}} - {{ocena.ocena}}</p>
+                <p>Komentarz:{{ocena.komentarz}} - Ocena: {{ocena.ocena|default(5)}}</p>
                 <hr/>
             {% endfor %}
 
@@ -37,6 +41,7 @@
             <input type="submit" style="display:none"/>
             </form>
         </div>
+
         {% endfor %}
 
 
@@ -76,8 +81,21 @@ function recenzje_dodaj(id)
         }
   }});
 }
-$(document).ready(function() { 
-        
-    });
+function kup (id) {
+
+    bootbox.confirm("Na pewno chcesz kupić ten film?<br/> Link do pobrania zostanie wysłany na mail podany przy rejestracji", function(result) {
+      if (result)
+      {
+        $.get("{{ path('_zamowienia') }}", 
+            {
+            film_id: id
+        },
+            function(data, status){
+            alert("Kupiłeś film, zobacz strone 'Sprawdz zamowienia'");
+        });
+      }
+    }); 
+    // body...
+}
 </script>
     {% endblock %}

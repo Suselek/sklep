@@ -18,8 +18,8 @@ class FilmType extends AbstractType
             ->add('tytul')
             ->add('opis')
             ->add('cena')
-            ->add('oceny')
-            ->add('zamowienia')
+            ->add('oceny', null, array('attr' => array('style'=> 'display:none'), 'label_attr' => array('style'=> 'display:none')))
+            ->add('zamowienia', null, array('attr' => array('style'=> 'display:none'), 'label_attr' => array('style'=> 'display:none')))
         ;
     }
     

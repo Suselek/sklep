@@ -31,6 +31,17 @@ class FilmController extends Controller
             'entities' => $entities,
         ));
     }
+    public function zamowieniasprawdzAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entities = $em->getRepository('FilmyBundle:Film')->findAll();
+
+        return $this->render('FilmyBundle:Film:zamowienia.html.twig', array(
+            'entities' => $entities,
+        ));
+    }
+
     /**
      * Creates a new Film entity.
      *
@@ -101,6 +112,24 @@ class FilmController extends Controller
         $film = $em->getRepository('FilmyBundle:Film')->findOneById($_POST['film_id']);
         $em->persist($ocena);
         $film->addOceny($ocena);
+
+       
+        $em->flush();
+
+
+        return new Response('ok');
+    }
+
+    public function zamowieniaAction()
+    {
+        $zamowienie = new Zamowienie();
+        $zamowienie->setUser($this->getUser());
+      
+        $em = $this->getDoctrine()->getManager();
+
+        $film = $em->getRepository('FilmyBundle:Film')->findOneById($_GET['film_id']);
+        $em->persist($zamowienie);
+        $film->addZamowienium($zamowienie);
 
        
         $em->flush();

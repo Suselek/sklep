@@ -32,6 +32,9 @@ _delete:
 _zamowienia:
     path:     /zamowienia
     defaults: { _controller: "FilmyBundle:Film:zamowienia" }
+_zamowienia_index:
+    path:     /zamowieniasprawdz
+    defaults: { _controller: "FilmyBundle:Film:zamowieniasprawdz" }
 
 _ocena:
     path:     /ocena

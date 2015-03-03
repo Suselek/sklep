@@ -92,4 +92,8 @@ class Zamowienie
     {
         return $this->user;
     }
+    public function __toString()
+    {
+        return '';
+    }
 }
